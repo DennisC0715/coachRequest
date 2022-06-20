@@ -6,7 +6,7 @@ export default {
     };
 
     const response = await fetch(
-      `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coachRequest/${payload.coachId}.json`,
+      `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coachRequests/${payload.coachId}.json`,
       {
         method: "POST",
         body: JSON.stringify(newRequest),
@@ -16,7 +16,7 @@ export default {
     const responseData = await response.json();
 
     if (!response.ok) {
-      const error = new Error(resData.message || "Failed to send request");
+      const error = new Error(responseData.error || "Failed to send request");
       throw error;
     }
 
@@ -25,17 +25,21 @@ export default {
 
     context.commit("addRequest", { newRequest });
   },
+
+  /////////////////////////////////////////////////////////////////
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId;
     const token = context.rootGetters.token;
 
     const response = await fetch(
-      `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coachRequest/${coachId}.json?auth=` +
+      `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coachRequests/${coachId}.json?auth=` +
         token
     );
     const responseData = await response.json();
     if (!response.ok) {
-      const error = new Error(resData.message || "Failed to send request");
+      const error = new Error(
+        responseData.error.message || "Failed to send request"
+      );
       throw error;
     }
 
