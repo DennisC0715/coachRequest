@@ -1,33 +1,39 @@
 <template>
-  <base-dialog :show="!!error" title="An Error Occurred!" @close="handleError">
-    <p>{{ error }}</p>
-  </base-dialog>
-  <section><FilterCoach @change-filter="setFilters" /></section>
-  <section>
-    <base-card>
-      <div class="controls">
-        <base-button mode="outline" link @click="loadCoaches"
-          >Refresh</base-button
-        >
-        <base-button v-if="!isCoach && !isLoading" link to="/register"
-          >register as coach</base-button
-        >
-      </div>
-      <base-spinner v-if="isLoading"></base-spinner>
-      <ul v-else-if="hasCoaches">
-        <CoachItem
-          v-for="coach in filteredCoaches"
-          :key="coach.id"
-          :id="coach.id"
-          :areas="coach.areas"
-          :firstName="coach.firstName"
-          :lastName="coach.lastName"
-          :rate="coach.hourlyRate"
-        ></CoachItem>
-      </ul>
-      <h3 v-else>No Coaches Found</h3>
-    </base-card>
-  </section>
+  <div>
+    <base-dialog
+      :show="!!error"
+      title="An Error Occurred!"
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-dialog>
+    <section><FilterCoach @change-filter="setFilters" /></section>
+    <section>
+      <base-card>
+        <div class="controls">
+          <base-button mode="outline" link @click="loadCoaches(true)"
+            >Refresh</base-button
+          >
+          <base-button v-if="!isCoach && !isLoading" link to="/register"
+            >register as coach</base-button
+          >
+        </div>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul v-else-if="hasCoaches">
+          <CoachItem
+            v-for="coach in filteredCoaches"
+            :key="coach.id"
+            :id="coach.id"
+            :areas="coach.areas"
+            :firstName="coach.firstName"
+            :lastName="coach.lastName"
+            :rate="coach.hourlyRate"
+          ></CoachItem>
+        </ul>
+        <h3 v-else>No Coaches Found</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -72,10 +78,12 @@ export default {
     setFilters(updatedFilter) {
       this.activeFilter = updatedFilter;
     },
-    async loadCoaches() {
+    async loadCoaches(refresh = false) {
       this.isLoading = true;
       try {
-        await this.$store.dispatch("coaches/loadCoach");
+        await this.$store.dispatch("coaches/loadCoach", {
+          forceRefresh: refresh,
+        });
       } catch (error) {
         this.error = error.message || "Something went wrong";
       }
@@ -83,7 +91,7 @@ export default {
       this.isLoading = false;
     },
     handleError() {
-      this.error = null;s
+      this.error = null;
     },
   },
   components: { CoachItem, FilterCoach },
