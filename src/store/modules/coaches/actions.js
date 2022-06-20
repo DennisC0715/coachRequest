@@ -8,9 +8,11 @@ export default {
       hourlyRate: data.hourlyRate,
       areas: data.areas,
     };
-
+    const token = context.rootGetters.token;
+    console.log(token);
     const res = await fetch(
-      `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coaches/${userId}.json`,
+      `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coaches/${userId}.json?auth=` +
+        token,
       {
         method: "PUT",
         body: JSON.stringify(coachData),

@@ -20,13 +20,16 @@ export default {
       );
       throw error;
     }
+
+    console.log(responseData);
     context.commit("setUser", {
       userId: responseData.localId,
-      token: responseData.IdToken,
+      token: responseData.idToken,
       tokenExpiration: responseData.expiresIn,
     });
   },
 
+  ///////////////////////////////////////////////////////
   async signup(context, payload) {
     const email = payload.email;
     const password = payload.password;
@@ -54,8 +57,17 @@ export default {
     console.log(responseData);
     context.commit("setUser", {
       userId: responseData.localId,
-      token: responseData.IdToken,
+      token: responseData.idToken,
       tokenExpiration: responseData.expiresIn,
+    });
+  },
+
+  /////////////////////////////////////
+  logout(context) {
+    context.commit("setUser", {
+      token: null,
+      userId: null,
+      tokenExpiration: null,
     });
   },
 };

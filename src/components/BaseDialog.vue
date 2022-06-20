@@ -98,7 +98,7 @@ menu {
   margin: 0;
 }
 
-.dialog-enter-form,
+.dialog-enter-from,
 .dialog-leave-to {
   opacity: 0;
   transform: scale(0.8);
@@ -108,14 +108,8 @@ menu {
   transition: all 0.3s ease-out;
 }
 
-.dialog-leave-action {
+.dialog-leave-active {
   transition: all 0.3s ease-in;
-}
-
-.dialog-enter-to,
-.dialog-leave-from {
-  opacity: 1;
-  transform: scale(1);
 }
 
 @media (min-width: 768px) {
