@@ -27,7 +27,7 @@ export default {
   },
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId;
-    
+
     const response = await fetch(
       `https://vuecoach-bd4c5-default-rtdb.firebaseio.com/coachRequest/${coachId}.json`
     );
