@@ -67,7 +67,6 @@ export default {
     timer = setTimeout(() => {
       context.dispatch("autoLogout");
     }, expiresIn);
-    console.log(expirationDate);
 
     context.commit("setUser", {
       userId: responseData.localId,

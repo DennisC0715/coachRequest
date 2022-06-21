@@ -16,7 +16,12 @@
       </div>
       <div class="form-control">
         <label for="password">Password</label>
-        <input type="password" id="password" v-model.trim="password" />
+        <input
+          type="password"
+          id="password"
+          v-model.trim="password"
+          autocomplete="on"
+        />
       </div>
       <p v-if="!formIsValid" style="color: red">
         Please enter the valid email or password
